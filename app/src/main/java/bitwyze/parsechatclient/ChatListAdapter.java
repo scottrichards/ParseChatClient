@@ -16,7 +16,8 @@ import java.util.List;
 public class ChatListAdapter extends ArrayAdapter<Message> {
 
     public ChatListAdapter(Context context, List<Message> messages) {
-        super(context, android.R.layout.simple_list_item_1, messages);
+      //  super(context, android.R.layout.simple_list_item_1, messages);
+        super(context, 0, messages);
 
     }
 

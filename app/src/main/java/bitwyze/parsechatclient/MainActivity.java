@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void onSendClick(View v) {
-        ParseObject parseObject = new ParseObject("Message");
+        ParseObject parseObject = ParseObject.create("Message");
         parseObject.put("userName", "Scott Richards");
         String chatMessage = chatText.getText().toString();
         parseObject.put("message",chatMessage);
