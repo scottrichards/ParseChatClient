@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -21,6 +22,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -113,7 +115,16 @@ public class MainActivity extends AppCompatActivity {
         parseObject.put("userName", "Scott Richards");
         String chatMessage = chatText.getText().toString();
         parseObject.put("message",chatMessage);
-        parseObject.saveInBackground();
+        parseObject.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                Toast.makeText(MainActivity.this, "Successfully created message on Parse",
+                        Toast.LENGTH_SHORT).show();
+ // TO DO refreshMessages
+ //               refreshMessages();
+            }
+        });
+
     }
 
     @Override
