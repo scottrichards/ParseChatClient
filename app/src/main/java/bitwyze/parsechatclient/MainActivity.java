@@ -29,20 +29,21 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private ParseUser currentUser;
     private EditText chatText;
-    private ArrayAdapter arrayAdapter;
+    private ChatListAdapter chatListAdapter;
     private ArrayList<Message> messages = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        arrayAdapter = new ArrayAdapter(this,messages);
+
+        parseSetup();
+        chatListAdapter = new ChatListAdapter(this, messages);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         chatText = (EditText)findViewById(R.id.chatText);
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("myAppId")
-                .server("https://parsechatclient.herokuapp.com/parse/").build());
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
         });
         doAnonLogin();
         queryChats();
+    }
+
+    private void parseSetup() {
+        // Register your parse models here
+        Log.d("MainActivity","Message.class = " + Message.class);
+        ParseObject.registerSubclass(Message.class);
+        // Existing initialization happens after all classes are registered
+
+
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId("myAppId")
+                .server("https://parsechatclient.herokuapp.com/parse/").build());
     }
 
     private void doAnonLogin() {
@@ -80,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
                 if (e == null) {
                     //System.out.println("success retrieved objects " + scoreList.size());
                     Log.d("score", "Retrieved " + messageList.size() + " scores");
-                    arrayAdapter.clear();
-                    arrayAdapter.addAll(messageList);
-                    arrayAdapter.notifyDataSetChanged();
+                    chatListAdapter.clear();
+                    chatListAdapter.addAll(messageList);
+                    chatListAdapter.notifyDataSetChanged();
 //                    for (int i=0;i<scoreList.size();i++) {
 //                        Message message = new Message(scoreList.in);
 //                        ParseObject parseObject = scoreList[i];
